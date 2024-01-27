@@ -2,12 +2,15 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import {
   getServerSession,
   type DefaultSession,
+  type DefaultUser,
   type NextAuthOptions,
+  type User,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
 
-import { env } from "@/env";
 import { db } from "@/server/db";
+import type { Role } from "@prisma/client";
+import Credentials from "next-auth/providers/credentials";
+import argon2 from "argon2";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -15,19 +18,25 @@ import { db } from "@/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
-  }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+interface IUser extends DefaultUser {
+  id: string;
+  role: Role;
+}
+
+
+declare module "next-auth" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface User extends IUser {}
+  
+  interface Session extends DefaultSession {
+    user: User;
+  }
+}
+
+declare module "next-auth/jwt" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface JWT extends IUser {}
 }
 
 /**
@@ -36,20 +45,88 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    jwt({ token, user }) {
+      // console.log("====================================");
+      // console.log("token jwt token", token);
+      // console.log("====================================");
+      if (user) {  
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.role = user.role;
+      }
+      return token;
+    },
+
+    session({ session , token }) {
+      if (token) {
+        // console.log("====================================");
+        // console.log("session token", token);
+        // console.log("====================================");
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        const role = token.role;
+        session.user.role = role as Role;
+      }
+      return session;
+    },
   },
   adapter: PrismaAdapter(db),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "developer@gmail.com",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
+      },
+      async authorize(credentials): Promise<User | null> {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        const user = await db.user.findFirst({
+          where: {
+            email: credentials.email,
+          },
+        });
+
+        if (!user) {
+          return null;
+        }
+
+        // console.log("====================================");
+        // console.log("user", user);
+        // console.log("====================================");
+
+        const isValid = await argon2.verify(
+          user.password,
+          credentials.password,
+        );
+
+        if (!isValid) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          name: user.firstName + " " + user.lastName,
+          email: user.email,
+          role: user.role,
+        };
+      },
     }),
     /**
      * ...add more providers here.
