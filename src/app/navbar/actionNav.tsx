@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 
@@ -5,18 +6,18 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetHeader,  
+  SheetHeader,
   // SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { AlignJustify } from "lucide-react";
+import { ScanFace, AlignJustify } from "lucide-react";
 import Link from "next/link";
 
 const ActionNav = () => {
   return (
     <div>
-      <div className="md:hidden mt-10">
+      <div className="mt-10 md:hidden">
         <Sheet>
           <SheetTrigger>
             <AlignJustify size={24} className="cursor-pointer" />
@@ -25,30 +26,23 @@ const ActionNav = () => {
             <SheetHeader>
               <SheetDescription>
                 <div className="mt-10 flex w-full flex-col items-center space-y-4 text-lg">
-                  <Link href="/">sign in</Link>
-                  <Link href="/">home</Link>
-                  <Link href="/">about</Link>
-                  <Link href="/">faculty</Link>
+                  <Link href="/">Performance</Link>
+                  <Link href="/">Certification</Link>
+                  <Link href="/">Placements</Link>
+                  <Link href="/">Higher Studies</Link>
+                  <Link href="/">Language Training</Link>
+                  <Link href="/">Competitive Exam Training</Link>
                 </div>
               </SheetDescription>
             </SheetHeader>
           </SheetContent>
         </Sheet>
-
       </div>
-        <div className="hidden md:flex md:space-x-4">
-            <Button variant="ghost" className="bg-blue-500 text-white">
-                Sign In
-            </Button>
-
-            <Button variant="ghost"
-            className="bg-blue-500 text-white">
-                COE
-            </Button>
-
-        </div>
-
-
+      <div className="flex items-center lg:space-x-4">
+        <Button className="text-md hidden rounded-[40px] border-4 border-indigo-400/90 bg-[#565add] py-6 font-light text-white shadow-md transition-all duration-300 hover:scale-110 hover:shadow-indigo-300 md:flex">
+          Login here <ScanFace size={24} className="ml-2" />
+        </Button>
+      </div>
     </div>
   );
 };

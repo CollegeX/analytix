@@ -4,6 +4,8 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
 
+
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,21 +19,31 @@ import {
 
 const components: { title: string; description: string }[] = [
   {
-    title: "Home",
-    description: "Home page",
+    title: "Performance",
+    description: "Performance analytics of students in their semester exams , assessment exams , model exams",
   },
   {
-    title: "About",
-    description: "About page",
+    title: "Certification",
+    description: "Certification analytics students and faculty ",
   },
   {
-    title: "Faculty",
-    description: "Faculty page",
+    title: "Placement",
+    description: "Placement analytics final year students and previous year students",
   },
   {
-    title: "Sign In",
-    description: "Sign In page",
+    title: "language Training",
+    description: "Foreign language training analytics such as German , Japanese , French ..etc",
   },
+  {
+    title: "Competitive Exam Training",
+    description: "Competitive Exam Training analytics such as GATE, GRE, TOEFL, IELTS ..etc",
+  },
+  {
+    title: "Higher Studies",
+    description: "Students who are interested in higher studies in aboard and in India analytics",
+  },
+  
+
 ];
 
 export function NavigationBar() {
