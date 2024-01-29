@@ -70,14 +70,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   return (
     <div className={className} {...props}>
-      <Card className="m-4 w-full p-4 md:m-8">
-        <section className="header mx-6 my-3">
-          <CardTitle className="pt-4 text-3xl">Login</CardTitle>
-          <CardDescription className="pb-2 pt-2 text-md">
+      <Card className="mx-6 md:w-full mt-4 md:mt-0 md:m-8">
+        <div className="header mx-6 my-3">
+          <CardTitle className="pt-4 text-3xl text-primary">Login</CardTitle>
+          <CardDescription className="text-md pb-2 pt-2">
             Enter your email to{" "}
             <span className="font-medium text-primary"> Login </span>
           </CardDescription>
-        </section>
+        </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

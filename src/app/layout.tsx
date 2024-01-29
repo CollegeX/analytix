@@ -14,8 +14,8 @@ const inter = Inter({
 
 const ubuntu = Ubuntu({
   subsets: ["latin"],
-  variable: "--font-mono",
-  weight: "500"
+  variable: "--font-display",
+  weight: "700"
 });
 
 export const metadata = {

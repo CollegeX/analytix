@@ -1,5 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { Role } from "@prisma/client";
+import { hash } from "argon2";
 import { z } from "zod";
 
 const userRouter = createTRPCRouter({
@@ -11,12 +12,13 @@ const userRouter = createTRPCRouter({
       password: z.string(),
     })
   ).mutation(async ({ ctx, input }) => {
+    const password = await hash(input.password);
     const user = await ctx.db.user.create({
       data: {
         firstName: input.firstName,
         lastName: input.lastName,
         email: input.email,
-        password: input.password,
+        password: password,
         role: Role.UNASSIGNED,
       },
     });

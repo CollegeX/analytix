@@ -24,11 +24,10 @@ interface IUser extends DefaultUser {
   role: Role;
 }
 
-
 declare module "next-auth" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface User extends IUser {}
-  
+
   interface Session extends DefaultSession {
     user: User;
   }
@@ -45,6 +44,11 @@ declare module "next-auth/jwt" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/login" || "admin/login",
+    signOut: "/login",
+    error: "/login",
+  },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -54,7 +58,7 @@ export const authOptions: NextAuthOptions = {
       // console.log("====================================");
       // console.log("token jwt token", token);
       // console.log("====================================");
-      if (user) {  
+      if (user) {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
@@ -63,7 +67,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
-    session({ session , token }) {
+    session({ session, token }) {
       if (token) {
         // console.log("====================================");
         // console.log("session token", token);
@@ -85,7 +89,7 @@ export const authOptions: NextAuthOptions = {
         email: {
           label: "Email",
           type: "email",
-          placeholder: "developer@gmail.com",
+          placeholder: "roshan@gmail.com",
         },
         password: {
           label: "Password",

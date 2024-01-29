@@ -6,7 +6,7 @@ import { Loader2, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as z from "zod";
-import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
@@ -23,14 +23,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 export function RegisterForm({ className }: { className?: string }) {
   // STATE
@@ -38,14 +31,12 @@ export function RegisterForm({ className }: { className?: string }) {
   const router = useRouter();
 
   // QUERIES
-  // const register = api.user.createEmployee.useMutation();
+  const register = api.user.createUser.useMutation();
 
   const RegisterFormSchema = z.object({
     firstName: z.string().min(1),
     lastName: z.string().min(1),
     email: z.string().email(),
-    mobile: z.string().refine((s) => s.length === 10),
-    dob: z.coerce.date(),
     password: z.string().min(8),
     repeatPassword: z.string().min(8),
   });
@@ -55,33 +46,36 @@ export function RegisterForm({ className }: { className?: string }) {
   });
 
   async function onSubmit(data: z.infer<typeof RegisterFormSchema>) {
+    if (data.password !== data.repeatPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
     console.log(data);
-    // setIsLoading(true);
-    // try {
-    //   const res = await register.mutateAsync({
-    //     firstName: data.firstName,
-    //     lastName: data.lastName,
-    //     email: data.email,
-    //     mobile: data.mobile,
-    //     dob: data.dob,
-    //     password: data.password,
-    //   });
-    //   if (res.success) {
-    //     toast.success("Registered Successfully");
-    //     router.push("/login");
-    //   } else toast.error("Something went wrong. Try again in some time.");
-    // } catch (error) {
-    //   toast.error("Something went wrong");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+    try {
+      const res = await register.mutateAsync({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (res) {
+        toast.success("Registered Successfully");
+        router.push("/login");
+      } else toast.error("Something went wrong. Try again in some time.");
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <Card className={cn("m-4 w-full p-4 md:m-8", className)}>
+    <Card className={cn("mt-4  mx-6 p-4 md:m-8", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
-          <FormLabel className="font-display mb-1 text-3xl text-primary">
+          <FormLabel className="mb-1 font-display text-3xl text-primary">
             Register
           </FormLabel>
           <FormDescription className="mb-3">
@@ -139,38 +133,6 @@ export function RegisterForm({ className }: { className?: string }) {
             )}
           />
 
-          {/* Mobile */}
-          <FormField
-            control={form.control}
-            name="mobile"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mobile</FormLabel>
-                <FormControl>
-                  <Input type="tel" placeholder="Mobile" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* DOB */}
-          <FormField
-            control={form.control}
-            name="dob"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>DOB</FormLabel>
-                <FormControl>
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore */}
-                  <Input type="date" placeholder="DOB" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           {/* Password */}
           <FormField
             control={form.control}
@@ -209,6 +171,13 @@ export function RegisterForm({ className }: { className?: string }) {
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Register
           </Button>
+
+          <p>
+            Already have an account?{" "}
+            <Link href="/login" className="underline">
+              Login
+            </Link>
+          </p>
         </form>
       </Form>
     </Card>
