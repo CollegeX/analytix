@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const firstSection = () => {
+const Hero = () => {
   return (
     <section className="bg-[#d1d1f7] px-10 py-10 xl:py-36">
       <div className="flex flex-col md:items-center">
@@ -22,14 +22,18 @@ const firstSection = () => {
           </Link>
         </div>
         <div className="xl:pt-28">
-            <video className="rounded-[40px] shadow-indigo-400 shadow-xl xl:w-5/6 xl:mx-auto" autoPlay muted loop>
-                <source src="/content/dataAnal.mp4" type="video/mp4" />
-            </video>
-
+          <video
+            className="rounded-[40px] shadow-xl shadow-indigo-400 xl:mx-auto xl:w-5/6"
+            autoPlay
+            muted
+            loop
+          >
+            <source src="/content/dataAnal.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
     </section>
   );
 };
 
-export default firstSection;
+export default Hero;

@@ -9,7 +9,7 @@ export default function LoginLayout({
   return (
     <div>
       <div className="flex flex-col md:h-screen md:flex-row">
-        <div className="w-full  overflow-hidden bg-primary p-8 md:h-screen md:w-1/2">
+        <div className="w-full  overflow-hidden bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 p-8 md:h-screen md:w-1/2">
           <div className="flex flex-row gap-2 ">
             <Link
               href="/"

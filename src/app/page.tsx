@@ -1,18 +1,12 @@
-"use client"
-
-// import { Button } from "@/components/ui/button";
-// import { api } from "@/trpc/react";
-import Navbar from "@/app/navbar/page";
-import Hero from "./hero/page";
+"use client";
+import Navbar from "@/components/nav/Navbar";
+import Hero from "@/components/common/Hero";
 
 export default function Home() {
-  // const {data} = api.course.findMany.useQuery();
-  // console.log(data);
   return (
-    <main >
-      <Navbar/>
-      <Hero/>
-      HOO
+    <main>
+      <Navbar />
+      <Hero />
     </main>
   );
 }

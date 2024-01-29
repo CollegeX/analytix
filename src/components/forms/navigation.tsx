@@ -1,26 +1,22 @@
 import React from "react";
-// import Link from "next/link";
-
 import { cn } from "@/lib/utils";
-import Logo from "./logo";
-
-
+import Image from "next/image";
+import Link from "next/link";
 
 import {
   NavigationMenu,
   NavigationMenuContent,
-  // NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  // NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 
 const components: { title: string; description: string }[] = [
   {
     title: "Performance",
-    description: "Performance analytics of students in their semester exams , assessment exams , model exams",
+    description:
+      "Performance analytics of students in their semester exams , assessment exams , model exams",
   },
   {
     title: "Certification",
@@ -28,22 +24,24 @@ const components: { title: string; description: string }[] = [
   },
   {
     title: "Placement",
-    description: "Placement analytics final year students and previous year students",
+    description:
+      "Placement analytics final year students and previous year students",
   },
   {
     title: "language Training",
-    description: "Foreign language training analytics such as German , Japanese , French ..etc",
+    description:
+      "Foreign language training analytics such as German , Japanese , French ..etc",
   },
   {
     title: "Competitive Exam Training",
-    description: "Competitive Exam Training analytics such as GATE, GRE, TOEFL, IELTS ..etc",
+    description:
+      "Competitive Exam Training analytics such as GATE, GRE, TOEFL, IELTS ..etc",
   },
   {
     title: "Higher Studies",
-    description: "Students who are interested in higher studies in aboard and in India analytics",
+    description:
+      "Students who are interested in higher studies in aboard and in India analytics",
   },
-  
-
 ];
 
 export function NavigationBar() {
@@ -60,7 +58,15 @@ export function NavigationBar() {
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
-                    <Logo />
+                    <Link href="/">
+                      <Image
+                        src="/content/logodemo.svg"
+                        width={150}
+                        height={150}
+                        alt="logo"
+                        className="w-40"
+                      />
+                    </Link>
                     <div className="mb-2 mt-4 text-lg font-medium">
                       Chennai Institute of Technology
                     </div>
