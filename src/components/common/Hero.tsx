@@ -17,7 +17,7 @@ const Hero = () => {
             statistics in minutes.
           </p>
           <Link href="/" className="flex gap-4 py-10 xl:pt-10">
-            <Button className="rounded-[60px] border-4 border-indigo-400/90 bg-[#565add] px-10 py-9 text-xl font-light text-white shadow-md transition-all duration-300  hover:scale-110 hover:shadow-indigo-300">
+            <Button className="rounded-[60px] border-4 border-indigo-400/90 bg-primary px-10 py-9 text-xl font-light text-white shadow-md transition-all duration-300  hover:scale-110 hover:shadow-indigo-300">
               Getting Started
             </Button>
           </Link>
