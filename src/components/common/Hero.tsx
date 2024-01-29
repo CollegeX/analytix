@@ -4,26 +4,27 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="bg-[#d1d1f7] px-10 py-10 xl:py-36">
-      <div className="flex flex-col md:items-center">
-        <div className="flex justify-center pt-10 text-4xl font-medium text-[#2b1c50] lg:text-5xl xl:text-6xl">
-          <h1>Chennai Institute of Technology</h1>
-        </div>
+    <section className="mx-8 my-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 items-center my-12">
+        <div>
+          <div className="flex flex-col justify-center gap-2 font-display text-6xl font-medium">
+            <span>Stay Updated </span>
+            <span>With Ease</span>
+          </div>
 
-        <p className="pt-4 text-xl  text-[#3d2e7c] md:text-center lg:pt-6 xl:w-1/2 xl:text-3xl">
-          Analytics of Students and Faculties of the University to track their
-          performance and more.
-        </p>
-        <div className="flex gap-4 py-10 xl:pt-10">
-          <Link href="/">
-            <Button className="rounded-[60px] border-4 border-indigo-400/90 bg-[#565add] px-10 py-9 text-xl font-light text-white shadow-md transition-all duration-300  hover:scale-110 hover:shadow-indigo-300 md:flex md:justify-center xl:px-24 xl:py-12 xl:text-3xl">
+          <p className="pt-4 text-2xl">
+            Analytix provides you with the tools to track student and faculty
+            statistics in minutes.
+          </p>
+          <Link href="/" className="flex gap-4 py-10 xl:pt-10">
+            <Button className="rounded-[60px] border-4 border-indigo-400/90 bg-[#565add] px-10 py-9 text-xl font-light text-white shadow-md transition-all duration-300  hover:scale-110 hover:shadow-indigo-300">
               Getting Started
             </Button>
           </Link>
         </div>
-        <div className="xl:pt-28">
+        <div>
           <video
-            className="rounded-[40px] shadow-xl shadow-indigo-400 xl:mx-auto xl:w-5/6"
+            className="rounded-3xl shadow-md shadow-neutral-600"
             autoPlay
             muted
             loop

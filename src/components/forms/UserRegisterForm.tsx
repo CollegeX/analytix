@@ -52,14 +52,6 @@ export function RegisterForm({ className }: { className?: string }) {
 
   const form = useForm<z.infer<typeof RegisterFormSchema>>({
     resolver: zodResolver(RegisterFormSchema),
-    defaultValues: {
-      firstName: "Sai",
-      lastName: "Sabarish",
-      email: "saisabarishmail@gmail.com",
-      dob: new Date(),
-      password: "12345678",
-      repeatPassword: "12345678",
-    },
   });
 
   async function onSubmit(data: z.infer<typeof RegisterFormSchema>) {
