@@ -30,7 +30,10 @@ import {
 import Link from "next/link";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  admin?: boolean;
+}
 
 interface LoginInputs {
   email: string;
@@ -39,11 +42,16 @@ interface LoginInputs {
 
 export const revalidate = 0;
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({
+  className,
+  admin,
+  ...props
+}: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<LoginInputs>();
-  const redirectRoute = useSearchParams().get("from") ?? "/";
+  const homeRoute = admin ? "/admin/dashboard" : "/";
+  const redirectRoute = useSearchParams().get("from") ?? homeRoute;
 
   const error = useSearchParams()?.get("error");
 
@@ -70,7 +78,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   return (
     <div className={className} {...props}>
-      <Card className="mx-6 md:w-full mt-4 md:mt-0 md:m-8">
+      <Card className="mx-6 mt-4 md:m-8 md:mt-0 md:w-full">
         <div className="header mx-6 my-3">
           <CardTitle className="pt-4 text-3xl text-primary">Login</CardTitle>
           <CardDescription className="text-md pb-2 pt-2">
@@ -146,12 +154,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 Login
               </Button>
 
-              <p className="mt-2">
-                Don{"'"}t have an account?{" "}
-                <Link href={"/register"} className="underline">
-                  Register
-                </Link>
-              </p>
+              {!admin && (
+                <p className="mt-2">
+                  Don{"'"}t have an account?{" "}
+                  <Link href={"/register"} className="underline">
+                    Register
+                  </Link>
+                </p>
+              )}
             </CardFooter>
           </form>
         </Form>
