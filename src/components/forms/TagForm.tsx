@@ -1,6 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { type FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
@@ -26,8 +27,9 @@ export default function TagForm() {
   // STATE
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  function onSubmit(values: z.infer<typeof TagFormSchema>) {
-    console.log(values);
+  function onSubmit(values: FieldValues) {
+    const parsedValues = values as z.infer<typeof TagFormSchema>;
+    console.log(parsedValues);
   }
 
   const form = useForm({
@@ -36,11 +38,7 @@ export default function TagForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={() => {
-          console.log(form.getValues());
-        }}
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Name */}
         <FormField
           control={form.control}
