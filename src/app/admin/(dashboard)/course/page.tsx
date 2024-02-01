@@ -6,7 +6,7 @@ export default function Course() {
   return (
     <main className="mx-8">
       <p className="mt-6 font-display text-3xl text-primary ">Create Course</p>
-        <CourseForm />
+        <CourseForm className="w-96 space-y-3"/>
     </main>
   );
 }

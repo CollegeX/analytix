@@ -19,20 +19,19 @@ import {
 import { Input } from "@/components/ui/input";
 
 const TagFormSchema = z.object({
-  name: z.string(),
-  description: z.string(),
+  name: z.string().min(1),
+  description: z.string().min(2),
 });
 
 export default function TagForm() {
   // STATE
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  function onSubmit(values: FieldValues) {
-    const parsedValues = values as z.infer<typeof TagFormSchema>;
-    console.log(parsedValues);
+  function onSubmit(data: z.infer<typeof TagFormSchema>) {
+    console.log(data);
   }
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof TagFormSchema>>({
     resolver: zodResolver(TagFormSchema),
   });
 

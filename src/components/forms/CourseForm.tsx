@@ -23,8 +23,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { Input } from "../ui/input";
+import { api } from "@/trpc/react";
 
 const CourseFromSchema = z.object({
   regulationId: z.coerce.number(),
@@ -33,9 +34,17 @@ const CourseFromSchema = z.object({
   active: z.coerce.boolean(),
 });
 
-export default function CourseForm() {
+interface Props {
+  className?: string;
+}
+
+export default function CourseForm({ className }: Props) {
   // STATE
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // API CALLS
+  const { data: departments } = api.department.findMany.useQuery();
+  const { data: regulations } = api.regulation.findMany.useQuery();
 
   const form = useForm<z.infer<typeof CourseFromSchema>>({
     resolver: zodResolver(CourseFromSchema),
@@ -43,21 +52,37 @@ export default function CourseForm() {
   function onSubmit(values: z.infer<typeof CourseFromSchema>) {
     console.log(values);
   }
-  
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        {/* Name */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+        {/* Regulation */}
         <FormField
           control={form.control}
           name="regulationId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Regulation Id</FormLabel>
-              <FormControl>
-                <Input placeholder="Regulation Id" type="number" {...field} />
-              </FormControl>
+              <FormLabel>Regulation</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={String(field.value)}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Regulation" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {regulations?.map((regulation) => (
+                    <SelectItem
+                      key={regulation.id}
+                      value={String(regulation.id)}
+                    >
+                      {regulation.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -78,41 +103,42 @@ export default function CourseForm() {
           )}
         />
 
-<FormField
+        <FormField
           control={form.control}
           name="departmentId"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Department</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={String(field.value)}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a verified email to display" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="1">CSE</SelectItem>
-                  <SelectItem value="2">ECE</SelectItem>
-                  <SelectItem value="3">AIDS</SelectItem>
-                  
+                  {departments?.map((department) => (
+                    <SelectItem
+                      key={department.id}
+                      value={String(department.id)}
+                    >
+                      {department.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Select the department to which the course belongs
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-
-
-     
         <FormField
           control={form.control}
           name="active"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex items-end space-x-3">
               <FormLabel>Active</FormLabel>
               <FormControl>
                 <Checkbox {...form.register("active")} />
@@ -121,10 +147,8 @@ export default function CourseForm() {
             </FormItem>
           )}
         />
-        
-        <Button type="submit" >
-          submit
-        </Button>
+
+        <Button type="submit">submit</Button>
       </form>
     </Form>
   );
