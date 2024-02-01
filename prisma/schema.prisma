@@ -58,15 +58,30 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Course {
-  id         Int         @id @default(autoincrement())
-  regulation Int
-  semester   Int
-  department String
-  totalCount Int
-  Coursetag  CourseTag[]
+
+
+model Department {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  courses Course[]
 }
 
+model Regulation {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  courses Course[]
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  regulation  Regulation @relation(fields: [regulationId], references: [id])
+  regulationId Int
+  semester    Int      @db.SmallInt
+  department  Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  isActive      Boolean  @default(true)
+  tags        CourseTag[]
+}
 model CourseTag {
   id       Int    @id @default(autoincrement())
   Course   Course @relation(fields: [courseId], references: [id])
