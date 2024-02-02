@@ -6,6 +6,7 @@ import { Ubuntu } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,7 +16,7 @@ const inter = Inter({
 const ubuntu = Ubuntu({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: "700"
+  weight: "700",
 });
 
 export const metadata = {
@@ -38,7 +39,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            {children}
+            <Toaster />
+          </TRPCReactProvider>
         </ThemeProvider>
       </body>
     </html>

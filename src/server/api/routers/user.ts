@@ -5,6 +5,8 @@ import { z } from "zod";
 import { sendEmail } from "@/server/mailer";
 import { render } from "@react-email/render";
 import ConfirmEmail from "@/server/emails/ConfirmEmail";
+import crypto from "crypto";
+import { env } from "@/env";
 
 const userRouter = createTRPCRouter({
   createUser: publicProcedure
@@ -14,10 +16,12 @@ const userRouter = createTRPCRouter({
         lastName: z.string(),
         email: z.string().email(),
         password: z.string(),
+        requestedRole: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const password = await hash(input.password);
+      const verificationToken = crypto.randomBytes(32).toString("hex");
       const user = await ctx.db.user.create({
         data: {
           firstName: input.firstName,
@@ -25,8 +29,21 @@ const userRouter = createTRPCRouter({
           email: input.email,
           password: password,
           role: Role.UNASSIGNED,
+          verificationToken: verificationToken,
+          requestedRole: input.requestedRole as Role,
         },
       });
+      await sendEmail({
+        to: input.email,
+        subject: "Verify your Analytix account",
+        html: render(
+          ConfirmEmail({
+            userFirstname: input.firstName,
+            confirmEmailLink: `${env.BASE_URL}/verify/email/${verificationToken}`,
+          }),
+        ),
+      });
+
       return !!user;
     }),
 
@@ -34,6 +51,41 @@ const userRouter = createTRPCRouter({
     const users = await ctx.db.user.findMany();
     return users;
   }),
+
+  verifyEmail: publicProcedure
+    .input(
+      z.object({
+        token: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = ctx.session?.user;
+      if (!user) {
+        return {
+          success: false,
+          message: "You must be logged in to verify your email.",
+        };
+      }
+      const updatedUser = await ctx.db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          emailVerified: true,
+        },
+      });
+      if (!updatedUser) {
+        return {
+          success: false,
+          message: "There was an error verifying your email.",
+        };
+      }
+
+      return {
+        success: true,
+        message: "Your email has been verified.",
+      };
+    }),
 });
 
 export default userRouter;

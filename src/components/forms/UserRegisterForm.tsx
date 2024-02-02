@@ -24,6 +24,14 @@ import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { Role } from "@prisma/client";
 
 export function RegisterForm({ className }: { className?: string }) {
   // STATE
@@ -39,6 +47,7 @@ export function RegisterForm({ className }: { className?: string }) {
     email: z.string().email(),
     password: z.string().min(8),
     repeatPassword: z.string().min(8),
+    role: z.enum(["PRINCIPAL", "HOD", "DEPT_STAFF"]),
   });
 
   const form = useForm<z.infer<typeof RegisterFormSchema>>({
@@ -58,6 +67,7 @@ export function RegisterForm({ className }: { className?: string }) {
         lastName: data.lastName,
         email: data.email,
         password: data.password,
+        requestedRole: data.role as Role,
       });
 
       if (res) {
@@ -72,7 +82,7 @@ export function RegisterForm({ className }: { className?: string }) {
   }
 
   return (
-    <Card className={cn("mt-4  mx-6 p-4 md:m-8", className)}>
+    <Card className={cn("mx-6  mt-4 p-4 md:m-8", className)}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
           <FormLabel className="mb-1 font-display text-3xl text-primary">
@@ -162,6 +172,33 @@ export function RegisterForm({ className }: { className?: string }) {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Requested Role */}
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={String(field.value)}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="DEPT_STAFF">Staff</SelectItem>
+                    <SelectItem value="HOD">Head Of Department</SelectItem>
+                    <SelectItem value="PRINCIPAL">Principal</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

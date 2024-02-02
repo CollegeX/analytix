@@ -38,16 +38,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  firstName     String
-  lastName      String
-  password      String
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  role          Role      @default(UNASSIGNED)
-  accounts      Account[]
-  sessions      Session[]
+  id                String    @id @default(cuid())
+  firstName         String
+  lastName          String
+  password          String
+  email             String?   @unique
+  emailVerified     Boolean   @default(false)
+  verificationToken String?
+  image             String?
+  role              Role      @default(UNASSIGNED)
+  requestedRole     Role?
+  accounts          Account[]
+  sessions          Session[]
 }
 
 model VerificationToken {
@@ -57,8 +59,6 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-
-
 
 model Department {
   id      Int      @id @default(autoincrement())
@@ -73,15 +73,16 @@ model Regulation {
 }
 
 model Course {
-  id          Int      @id @default(autoincrement())
-  regulation  Regulation @relation(fields: [regulationId], references: [id])
+  id           Int         @id @default(autoincrement())
+  regulation   Regulation  @relation(fields: [regulationId], references: [id])
   regulationId Int
-  semester    Int      @db.SmallInt
-  department  Department @relation(fields: [departmentId], references: [id])
+  semester     Int         @db.SmallInt
+  department   Department  @relation(fields: [departmentId], references: [id])
   departmentId Int
-  isActive      Boolean  @default(true)
-  tags        CourseTag[]
+  isActive     Boolean     @default(true)
+  tags         CourseTag[]
 }
+
 model CourseTag {
   id       Int    @id @default(autoincrement())
   Course   Course @relation(fields: [courseId], references: [id])

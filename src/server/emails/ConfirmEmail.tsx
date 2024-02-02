@@ -59,7 +59,9 @@ export default function ConfirmEmail({
               <Text className="mt-4 text-black">
                 If you did not sign up for Analytix, please ignore this email.
               </Text>
-              <Text className="text-black">Team BCloudOne</Text>
+              <Text className="text-black">
+                Chennai Institute of Technology
+              </Text>
               <Hr />
               <Text className="mt-4 w-[600px] text-xs text-gray-400">
                 © Analytix 2024. All rights reserved.
