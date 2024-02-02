@@ -4,10 +4,13 @@ import { Button } from "../ui/button";
 const Nav = () => {
   return (
     <div className="sticky top-0 z-50 flex h-24 items-center justify-between border-b bg-white pr-10 lg:px-20">
-      <div className="px-2 font-bold text-primary">AnalytixAdmin</div>
+      <div className="px-2">
+        <span className="font-display text-xl text-primary">Analytix</span>{" "}
+        Admin
+      </div>
 
       <div className="flex items-center justify-center gap-4">
-        <Link href="/admin">
+        <Link href="/admin/student">
           <Button variant={"outline"} className="border-none">
             Student
           </Button>
@@ -22,19 +25,9 @@ const Nav = () => {
             Department
           </Button>
         </Link>
-        <Link href="/admin/subject">
+        <Link href="/admin/accounts">
           <Button variant={"outline"} className="border-none">
-            Placements
-          </Button>
-        </Link>
-        <Link href="/admin/subject">
-          <Button variant={"outline"} className="border-none">
-            Course
-          </Button>
-        </Link>
-        <Link href="/admin/subject">
-          <Button variant={"outline"} className="border-none">
-            LanguageTraining
+            Accounts
           </Button>
         </Link>
       </div>
