@@ -86,6 +86,15 @@ const userRouter = createTRPCRouter({
         message: "Your email has been verified.",
       };
     }),
+
+    findUnAssigned: publicProcedure.query(async ({ ctx }) => {
+      const users = await ctx.db.user.findMany({
+        where: {
+          role: Role.UNASSIGNED,
+        },
+      });
+      return users;
+    }),
 });
 
 export default userRouter;
