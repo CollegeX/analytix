@@ -87,7 +87,7 @@ const userRouter = createTRPCRouter({
       };
     }),
 
-    findUnAssigned: publicProcedure.query(async ({ ctx }) => {
+    findUnassigned: publicProcedure.query(async ({ ctx }) => {
       const users = await ctx.db.user.findMany({
         where: {
           role: Role.UNASSIGNED,

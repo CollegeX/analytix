@@ -1,4 +1,5 @@
 import { getServerAuthSession } from "@/server/auth";
+import Nav from "@/components/admin/Nav";
 
 export default async function AdminLayout({
   children,
@@ -17,5 +18,10 @@ export default async function AdminLayout({
       </div>
     );
   }
-  return <main className="min-h-screen">{children}</main>;
+  return (
+    <main>
+      <Nav />
+      {children}
+    </main>
+  );
 }

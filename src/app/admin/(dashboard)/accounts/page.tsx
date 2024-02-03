@@ -1,11 +1,10 @@
-import { api } from "@/trpc/server";
+import AccountTable from "@/components/tables/AccountTable";
 
 export default async function AdminPage() {
-  const users = await api.user.findMany.query();
   return (
-    <main>
-      <h1>Account Page</h1>
-      
+    <main className="mx-6 mt-6">
+      <p className="font-display text-2xl text-primary">Account Page</p>
+      <AccountTable />
     </main>
   );
 }
