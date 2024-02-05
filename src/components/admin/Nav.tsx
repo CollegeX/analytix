@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 const Nav = () => {
   return (
-    <div className="sticky top-0 z-50 my-2 flex border-b p-2">
+    <div className="sticky top-0 z-50 flex h-24 items-center justify-between border-b bg-white pr-10 lg:px-20">
       <Link
         href={`/admin/dashboard`}
         className="flex items-center justify-start gap-1 px-2"
@@ -35,7 +35,7 @@ const Nav = () => {
         </Link>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex items-center lg:space-x-4">
         <Link href="/admin/login">
           <Button className="text-md hidden border-4  border-indigo-400/90 bg-primary px-5 py-5 font-light text-white shadow-md transition-all duration-300 hover:scale-110 hover:shadow-indigo-300 md:flex">
             Login here
