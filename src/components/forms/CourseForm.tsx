@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { z } from "zod";
 import { useState } from "react";
+import { Card } from "../ui/card";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -69,7 +69,7 @@ export default function CourseForm({ className }: Props) {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Regulation" />
+                    <SelectValue placeholder="Select Regulation " />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -115,7 +115,7 @@ export default function CourseForm({ className }: Props) {
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="Select a department" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -148,7 +148,7 @@ export default function CourseForm({ className }: Props) {
           )}
         />
 
-        <Button type="submit">submit</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

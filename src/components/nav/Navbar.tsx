@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { NavigationBar } from "../forms/navigation";
+import { NavigationBar } from "./navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ActionNav from "./ActionNav";

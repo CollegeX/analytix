@@ -16,12 +16,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { api } from "@/trpc/react";
-import { Button } from "@react-email/button";
+import { Button } from "../ui/button";
+import { useTransition, useState } from "react";
 
 export default function AccountTable() {
-  const users = api.user.findUnassigned.useQuery();
+  const users = api.user.findMany.useQuery(undefined, {
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
+  const assignRole = api.user.changeRole.useMutation();
+  const [isPending, startTransition] = useTransition();
+  const [roles, setRoles] = useState<Record<string, string>[]>([]);
+
+  function changeRole(userId: string, role: string | undefined) {
+    if (!role) {
+      return;
+    }
+    startTransition(async () => {
+      console.log(userId, role);
+      await assignRole.mutateAsync({ userId, role: role });
+      await users.refetch();
+    });
+  }
 
   return (
     <Table className="mt-3 border">
@@ -29,9 +47,10 @@ export default function AccountTable() {
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
+          <TableHead>Role</TableHead>
           <TableHead>Requested Role</TableHead>
-          <TableHead>Actions</TableHead>
-          <TableHead>Conform</TableHead>
+          <TableHead>Changed Role</TableHead>
+          <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody className="">
@@ -41,22 +60,41 @@ export default function AccountTable() {
               {user.firstName} {user.lastName}
             </TableCell>
             <TableCell>{user.email}</TableCell>
-            <TableCell>{user.requestedRole}</TableCell>
+            <TableCell>{user.role}</TableCell>
+            <TableCell>{user.requestedRole ?? "NO REQUEST"}</TableCell>
             <TableCell>
-              <Select>
+              <Select
+                onValueChange={(value) => {
+                  setRoles((prev) => {
+                    const newRoles = prev.filter((r) => r.id !== user.id);
+                    console.log([...newRoles, { id: user.id, role: value }]);
+                    return [...newRoles, { id: user.id, role: value }];
+                  });
+                }}
+                defaultValue={roles.find((r) => r.id === user.id)?.role}
+                value={roles.find((r) => r.id === user.id)?.role}
+              >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select role">Actions</SelectValue>
+                  <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={"ece"}>ADMIN</SelectItem>
-                  <SelectItem value={"cse"}>PRINCIPAL</SelectItem>
-                  <SelectItem value={"me"}>DEPT_STAFF</SelectItem>
-                  <SelectItem value={"ce"}>HOD</SelectItem>
+                  <SelectItem value={"DEPT_STAFF"}>Department Staff</SelectItem>
+                  <SelectItem value={"HOD"}>Head of Department</SelectItem>
+                  <SelectItem value={"PRINCIPAL"}>Principal</SelectItem>
+                  <SelectItem value={"ADMIN"}>Admin</SelectItem>
                 </SelectContent>
               </Select>
             </TableCell>
             <TableCell>
-              <Button className="">Conform</Button>
+              <Button
+                variant={"outline"}
+                className="hover:bg-primary/10"
+                onClick={() =>
+                  changeRole(user.id, roles.find((r) => r.id === user.id)?.role)
+                }
+              >
+                Confirm
+              </Button>
             </TableCell>
           </TableRow>
         ))}

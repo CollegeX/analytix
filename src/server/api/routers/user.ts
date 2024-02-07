@@ -87,13 +87,32 @@ const userRouter = createTRPCRouter({
       };
     }),
 
-    findUnassigned: publicProcedure.query(async ({ ctx }) => {
-      const users = await ctx.db.user.findMany({
+  findUnassigned: publicProcedure.query(async ({ ctx }) => {
+    const users = await ctx.db.user.findMany({
+      where: {
+        role: Role.UNASSIGNED,
+      },
+    });
+    return users;
+  }),
+
+  changeRole: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        role: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.update({
         where: {
-          role: Role.UNASSIGNED,
+          id: input.userId,
+        },
+        data: {
+          role: input.role as Role,
         },
       });
-      return users;
+      return !!user;
     }),
 });
 
