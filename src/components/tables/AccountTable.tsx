@@ -19,6 +19,7 @@ import {
 import { api } from "@/trpc/react";
 import { Button } from "../ui/button";
 import { useTransition, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AccountTable() {
   const users = api.user.findMany.useQuery(undefined, {
@@ -37,6 +38,7 @@ export default function AccountTable() {
     startTransition(async () => {
       console.log(userId, role);
       await assignRole.mutateAsync({ userId, role: role });
+      toast.success("Role changed successfully");
       await users.refetch();
     });
   }
