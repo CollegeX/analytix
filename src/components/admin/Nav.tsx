@@ -7,10 +7,9 @@ const Nav = () => {
     <div className="sticky top-0 z-50 flex h-24 items-center justify-between border-b bg-white pr-10 lg:px-20">
       <Link
         href={`/admin/dashboard`}
-        className="flex items-center justify-start gap-1 px-2"
+        className="flex items-center justify-start gap-1.5 px-2 font-display font-extralight"
       >
-        <span className="font-display text-xl text-primary">Analytix</span>{" "}
-        Admin
+        <span className="text-xl font-medium text-primary">Analytix</span> admin
       </Link>
 
       <div className="flex items-center justify-center gap-4">

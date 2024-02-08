@@ -62,12 +62,11 @@ model VerificationToken {
 model Department {
   id        Int      @id @default(autoincrement())
   name      String   @unique
-  shortName String
+  shortName String?
   hod       User?    @relation("DepartmentHOD", fields: [hodId], references: [id])
   hodId     String?  @unique
   staffs    User[]   @relation("DepartmentStaff")
   courses   Course[]
-  userId    String?
 }
 
 model Regulation {
@@ -78,10 +77,10 @@ model Regulation {
 
 model Course {
   id            Int         @id @default(autoincrement())
-  regulation    Regulation  @relation(fields: [regulationId], references: [id])
+  Regulation    Regulation  @relation(fields: [regulationId], references: [id])
   regulationId  Int
   semester      Int         @db.SmallInt
-  department    Department  @relation(fields: [departmentId], references: [id])
+  Department    Department  @relation(fields: [departmentId], references: [id])
   departmentId  Int
   totalStudents Int
   isActive      Boolean     @default(true)
