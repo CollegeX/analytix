@@ -84,7 +84,10 @@ export function RegisterForm({ className }: { className?: string }) {
   return (
     <Card className={cn("mx-6  mt-4 p-4 md:m-8", className)}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col space-y-1"
+        >
           <FormLabel className="mb-1 font-display text-3xl text-primary">
             Register
           </FormLabel>
@@ -189,7 +192,7 @@ export function RegisterForm({ className }: { className?: string }) {
                   defaultValue={String(field.value)}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                   </FormControl>
@@ -204,7 +207,9 @@ export function RegisterForm({ className }: { className?: string }) {
             )}
           />
 
-          <Button className="my-3 w-full" type="submit" disabled={isLoading}>
+          <div className="p-0.5" />
+
+          <Button className="w-full" type="submit" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Register
           </Button>

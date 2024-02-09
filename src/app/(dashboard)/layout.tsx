@@ -13,20 +13,13 @@ export default async function AdminLayout({
     return (
       <div className="mt-24 flex flex-col items-center justify-center gap-4 font-display text-2xl text-primary">
         <p>Login to Continue</p>
-        <Link href={"/admin/login"}>
+        <Link href={"/login"}>
           <Button>Login Page</Button>
         </Link>
       </div>
     );
   }
 
-  if (session.user.role !== "ADMIN") {
-    return (
-      <div className="text-display">
-        You are not authorized to view this page
-      </div>
-    );
-  }
   return (
     <main>
       <Nav />

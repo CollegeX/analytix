@@ -59,19 +59,27 @@ const userRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const user = ctx.session?.user;
+
+      const user = await ctx.db.user.findFirst({
+        where: {
+          verificationToken: input.token,
+        },
+      });
+
       if (!user) {
         return {
           success: false,
-          message: "You must be logged in to verify your email.",
+          message: "Invalid verification token.",
         };
       }
+
       const updatedUser = await ctx.db.user.update({
         where: {
           id: user.id,
         },
         data: {
           emailVerified: true,
+          verificationToken: null, 
         },
       });
       if (!updatedUser) {

@@ -45,7 +45,7 @@ declare module "next-auth/jwt" {
  */
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: "/login" || "admin/login",
+    signIn: "/login" ,
     signOut: "/login",
     error: "/login",
   },
@@ -107,7 +107,8 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (!user) {
+
+        if (!user || !user.emailVerified) {
           return null;
         }
 

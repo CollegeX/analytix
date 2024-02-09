@@ -16,5 +16,5 @@ export default async function CreateLayout({
     );
   }
 
-  return { children };
+  return <main>{children}</main>;
 }

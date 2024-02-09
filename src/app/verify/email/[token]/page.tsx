@@ -12,10 +12,6 @@ interface Props {
 }
 
 export default async function VerifyCustomerEmailPage({ params }: Props) {
-  const session = await getServerAuthSession();
-  if (!session) {
-    redirect("/login");
-  }
 
   const verified = await api.user.verifyEmail.mutate({
     token: params.token,
