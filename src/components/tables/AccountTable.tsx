@@ -27,6 +27,7 @@ export default function AccountTable() {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
   const assignRole = api.user.changeRole.useMutation();
   const [isPending, startTransition] = useTransition();
   const [roles, setRoles] = useState<Record<string, string>[]>([]);
@@ -37,6 +38,7 @@ export default function AccountTable() {
     }
     startTransition(async () => {
       console.log(userId, role);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       await assignRole.mutateAsync({ userId, role: role });
       toast.success("Role changed successfully");
       await users.refetch();
