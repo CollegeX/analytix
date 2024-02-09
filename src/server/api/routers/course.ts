@@ -8,7 +8,20 @@ import {
 
 export const courseRouter = createTRPCRouter({
   findMany: publicProcedure.query(async ({ ctx }) => {
-    const courses = await ctx.db.course.findMany();
+    const courses = await ctx.db.course.findMany({
+      include: {
+        Department: {
+          select: {
+            shortName: true,
+          },
+        },
+        Regulation: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
     return courses;
   }),
 

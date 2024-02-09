@@ -21,7 +21,7 @@ const tagRouter = createTRPCRouter({
           description: input.description,
         },
       });
-      return tag;
+      return !!tag;
     }),
 });
 
