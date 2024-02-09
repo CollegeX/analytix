@@ -98,50 +98,6 @@ export default function TagForm({ className }: { className?: string }) {
   return (
     <div className="flex gap-12">
       <Card className="h-full min-w-[450px] p-5">
-        <p className="mb-2 font-display text-3xl text-primary">Create Tag</p>
-        <Form {...tagForm}>
-          <form
-            onSubmit={tagForm.handleSubmit(onTagFormSubmit)}
-            className={className}
-          >
-            {/* Name */}
-            <FormField
-              control={tagForm.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Name" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Description */}
-            <FormField
-              control={tagForm.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Description" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" disabled={isLoading}>
-              Create Tag
-            </Button>
-          </form>
-        </Form>
-      </Card>
-
-      <Card className="h-full min-w-[450px] p-5">
         <p className="mb-2 font-display text-3xl text-primary">
           Create Course Tag
         </p>
@@ -230,6 +186,51 @@ export default function TagForm({ className }: { className?: string }) {
           </form>
         </Form>
       </Card>
+      <div className="h-full">
+        <Card className=" min-w-[450px] p-5">
+          <p className="mb-2 font-display text-3xl text-primary">Create Tag</p>
+          <Form {...tagForm}>
+            <form
+              onSubmit={tagForm.handleSubmit(onTagFormSubmit)}
+              className={className}
+            >
+              {/* Name */}
+              <FormField
+                control={tagForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Name" type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Description */}
+              <FormField
+                control={tagForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Description" type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" disabled={isLoading}>
+                Create Tag
+              </Button>
+            </form>
+          </Form>
+        </Card>
+      </div>
     </div>
   );
 }
