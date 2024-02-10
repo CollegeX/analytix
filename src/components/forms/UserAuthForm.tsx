@@ -60,7 +60,7 @@ export function UserAuthForm({
     signIn("credentials", {
       email: values.email,
       password: values.password,
-      callbackUrl: redirectRoute,
+      callbackUrl: "/dashboard",
     })
       .then((res) => {
         if (res?.error) {
