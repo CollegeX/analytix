@@ -60,7 +60,7 @@ export function NavigationBar() {
                   >
                     <Link href="/">
                       <Image
-                        src="/content/logodemo.svg"
+                        src="/images/logodemo.svg"
                         width={150}
                         height={150}
                         alt="logo"

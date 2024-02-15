@@ -17,7 +17,7 @@ import Link from "next/link";
 const ActionNav = () => {
   return (
     <div>
-      <div className="mt-10 md:hidden">
+      <div className="md:hidden">
         <Sheet>
           <SheetTrigger>
             <AlignJustify size={24} className="cursor-pointer" />

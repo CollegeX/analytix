@@ -23,6 +23,36 @@ const tagRouter = createTRPCRouter({
       });
       return !!tag;
     }),
+
+  findParentTags: protectedProcedure
+  .query(async({ctx}) => {
+    const parentTags = await ctx.db.tag.findMany({
+      where: {
+        Parent: undefined,
+      },
+    });
+
+    return parentTags;
+  }),
+
+  findTagByName: protectedProcedure
+  .input(
+    z.object({
+      name: z.string(),
+    }),
+  )
+  .query(async({ctx, input}) => {
+    const tag = await ctx.db.tag.findUnique({
+      where: {
+        name: input.name,
+      },
+      include: {
+        Child: true,
+      }
+    });
+
+    return tag;
+  })
 });
 
 export default tagRouter;

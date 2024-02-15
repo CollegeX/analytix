@@ -2,8 +2,18 @@ import Nav from "@/components/admin/Nav";
 import React from "react";
 import PieChart from "@/components/common/PieChart";
 import BarChartComponent from "@/components/common/BarChartComponent";
+import { api } from "@/trpc/server";
 
-const Page = () => {
+export default async function Page() {
+  const parentTags = await api.tag.findParentTags.query();
+  return <main>
+    {parentTags.map((t) => {
+      return <div key={t.id}>{t.name}</div>;
+    })}
+  </main>
+};
+
+function ChartsDemo() {
   const data = {
     name: "Example",
     values: {
@@ -47,6 +57,5 @@ const Page = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Page;

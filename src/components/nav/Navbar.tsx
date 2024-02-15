@@ -8,25 +8,19 @@ import ActionNav from "./ActionNav";
 
 const page = () => {
   return (
-    <div className="sticky top-0 z-50 flex h-24 items-center justify-between bg-white border-b pr-10 lg:px-20">
-      <div className="px-4">
-        <div className="w-40">
-          <Link href="/">
-            <Image
-              src="/content/logodemo.svg"
-              width={150}
-              height={150}
-              alt="logo"
-              className="w-40"
-            />
-          </Link>
-        </div>
-      </div>
+    <div className="sticky top-0 z-50 ">
+      <div className="mx-6 flex h-24 items-center justify-between md:mx-20 ">
+        <Link href="/dashboard" className="flex items-center gap-3">
+          <Image src="/images/logo.png" width={35} height={35} alt="logo" />
+          <p className="font-display text-2xl tracking-tight">Analytix</p>
+        </Link>
 
-      <div className="flex items-center">
-        <NavigationBar />
+        <div className="flex items-center">
+          <NavigationBar />
+        </div>
+        <ActionNav />
       </div>
-      <ActionNav />
+      <div className="border-b"/>
     </div>
   );
 };

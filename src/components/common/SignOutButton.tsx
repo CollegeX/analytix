@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const SignoutButton = () => {
+const SignoutButton = ({ className }: { className?: string }) => {
   const router = useRouter();
   return (
     <Button
@@ -13,7 +13,7 @@ const SignoutButton = () => {
         await signOut();
         router.push("/login");
       }}
-      className="w-full"
+      className={className}
     >
       Sign out
     </Button>

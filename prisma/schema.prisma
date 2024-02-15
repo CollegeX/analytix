@@ -98,7 +98,7 @@ model CourseTag {
 
 model Tag {
   id          Int            @id @default(autoincrement())
-  name        String
+  name        String         @unique
   description String
   Parent      TagHierarchy[] @relation("parentTag")
   Child       TagHierarchy[] @relation("childTag")
